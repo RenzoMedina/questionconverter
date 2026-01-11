@@ -22,6 +22,7 @@ It is designed for teaching teams or managers who work with large volumes of que
 
 * Moodle "^4.x"
 * PHP "^8.x"
+* Node (npm to TailwindCSS)
 
 ## Installing via uploaded ZIP file ##
 

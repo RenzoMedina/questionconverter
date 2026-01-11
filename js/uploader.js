@@ -3,7 +3,7 @@
     'use strict';
     
     function initUploader() {
-        const fileInput = document.getElementById('document-file')
+    const fileInput = document.getElementById('document-file')
     const btnConvert = document.getElementById('btn-convert')
     const btnReset = document.getElementById('btn-reset')
     const btnChange = document.getElementById('btn-change')
