@@ -1,4 +1,4 @@
-<?php
+<?php 
 // This file is part of Moodle - https://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,17 +15,21 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Code to be executed after the plugin's database scheme has been installed is defined here.
+ * Privileges and capabilities for the local_listusers plugin.
  *
  * @package     local_questionconverter
- * @category    upgrade
  * @copyright   2026 Renzo Medina <medinast30@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-/**
- * Custom code to be run on installing the plugin.
- */
-function xmldb_local_questionconverter_install() {
+defined('MOODLE_INTERNAL') || die();
 
-    return true;
-}
+$capabilities = [
+    'local/questionconverter:view' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_SYSTEM,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
+    ],
+];

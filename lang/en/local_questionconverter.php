@@ -19,10 +19,12 @@
  *
  * @package     local_questionconverter
  * @category    string
- * @copyright   2025 Renzo Medina <medinast30@gmail.com>
+ * @copyright   2026 Renzo Medina <medinast30@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Moodle Question Converter';
+$string['message']= 'Easily convert your PDF documents with questions to the Moodle platform quickly and easily.';
+$string['stringfooter'] = 'DRA - Classroom management';

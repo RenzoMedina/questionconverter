@@ -15,17 +15,16 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Code to be executed after the plugin's database scheme has been installed is defined here.
+ * Plugin strings are defined here.
  *
  * @package     local_questionconverter
- * @category    upgrade
+ * @category    string
  * @copyright   2026 Renzo Medina <medinast30@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-/**
- * Custom code to be run on installing the plugin.
- */
-function xmldb_local_questionconverter_install() {
 
-    return true;
-}
+defined('MOODLE_INTERNAL') || die();
+
+$string['pluginname'] = 'Convertidor de preguntas de Moodle';
+$string['message']= 'Convierta fácilmente sus documentos PDF de preguntas a plataforma Moodle directa de manera rápida y sencilla.';
+$string['stringfooter'] = 'DRA - Gestión de aula';
