@@ -11,5 +11,10 @@
         "vendor-dir": "vendor",
         "optimize-autoloader": true,
         "preferred-install": "dist"
+    },
+    "autoload": {
+        "psr-4": {
+            "local_questionconverter\\":"classes/"
+        }
     }
 }
