@@ -3,13 +3,13 @@
     'use strict';
     
     function initUploader() {
-    const fileInput = document.getElementById('document-file')
-    const btnConvert = document.getElementById('btn-convert')
-    const btnReset = document.getElementById('btn-reset')
-    const btnChange = document.getElementById('btn-change')
-    const dropZone = document.getElementById('drop-zone')
-    const uploadContent = document.getElementById('upload-content')
-    const fileSelectedContent = document.getElementById('file-selected-content')
+    const fileInput = document.getElementById('qc-document-file')
+    const btnConvert = document.getElementById('qc-btn-convert')
+    const btnReset = document.getElementById('qc-btn-reset')
+    const btnChange = document.getElementById('qc-btn-change')
+    const dropZone = document.getElementById('qc-drop-zone')
+    const uploadContent = document.getElementById('qc-upload-content')
+    const fileSelectedContent = document.getElementById('qc-file-selected-content')
     const fileName = document.getElementById('file-name')
     const fileSize = document.getElementById('file-size')
 
@@ -120,16 +120,12 @@
         }
     });
 
-    document.getElementById('document-file').addEventListener('change', function() {
+/*     document.getElementById('qc-document-file').addEventListener('change', function() {
         const fileName = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado'
         document.querySelector('.file-button').textContent = fileName
-    })
+    }) */
 
-    setTimeout(() => {
-        window.history.replaceState({}, document.title, window.location.pathname)
-    }, 7000);
-
-    const loader = document.getElementById("loader")
+    const loader = document.getElementById("qc-loader")
     document.getElementById('formulario').addEventListener('submit', function(e) {
         loader.classList.remove('hidden')
         loader.classList.add('flex')

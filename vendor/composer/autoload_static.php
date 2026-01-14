@@ -11,6 +11,10 @@ class ComposerStaticInit556e338c96ca43b678301c4d618af9c8
     );
 
     public static $prefixLengthsPsr4 = array (
+        'l' =>
+        array (
+            'local_questionconverter\\' => 24,
+        ),
         'S' =>
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -18,6 +22,10 @@ class ComposerStaticInit556e338c96ca43b678301c4d618af9c8
     );
 
     public static $prefixDirsPsr4 = array (
+        'local_questionconverter\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/classes',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -83,6 +91,9 @@ class ComposerStaticInit556e338c96ca43b678301c4d618af9c8
         'Smalot\\PdfParser\\XObject\\Form' => __DIR__ . '/..' . '/smalot/pdfparser/src/Smalot/PdfParser/XObject/Form.php',
         'Smalot\\PdfParser\\XObject\\Image' => __DIR__ . '/..' . '/smalot/pdfparser/src/Smalot/PdfParser/XObject/Image.php',
         'Symfony\\Polyfill\\Mbstring\\Mbstring' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/Mbstring.php',
+        'local_questionconverter\\converter\\pdf_parser' => __DIR__ . '/../..' . '/classes/converter/pdf_parser.php',
+        'local_questionconverter\\converter\\question_importer' => __DIR__ . '/../..' . '/classes/converter/question_importer.php',
+        'local_questionconverter\\form\\upload_form' => __DIR__ . '/../..' . '/classes/form/upload_form.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

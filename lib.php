@@ -33,7 +33,7 @@ function local_questionconverter_extend_navigation_frontpage(navigation_node $fr
 }
 
 function local_questionconverter_extend_navigation_course($navigation, $coursenode, $context) {
-    if (has_capability('local/questionconverter:use', $context)) {
+    if (!has_capability('local/questionconverter:use', $context)) {
         return;
     }
     $url = new moodle_url('/local/questionconverter/index.php', ['courseid' => $coursenode->id]);
@@ -43,6 +43,7 @@ function local_questionconverter_extend_navigation_course($navigation, $courseno
         navigation_node::TYPE_CUSTOM,
         null,
         'local_questionconverter',
+        new pix_icon('i/import', '')
     );
     $navigation->add_node($node);
 }

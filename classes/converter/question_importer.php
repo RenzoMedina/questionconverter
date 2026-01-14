@@ -33,9 +33,6 @@ class question_importer {
     /** @var \context El contexto del curso */
     private $context;
     
-    /** @var \question_category_object Manejador de categorías */
-    private $qcobject;
-    
     /**
      * Constructor
      * 
@@ -43,15 +40,8 @@ class question_importer {
      */
     public function __construct($context) {
         $this->context = $context;
-        $this->qcobject = new \question_category_object(
-            null,
-            new \moodle_url('/local/questionconverter/index.php'),
-            $context,
-            0,
-            null,
-            0,
-            null
-        );
+        // No dependemos de question_category_object (no disponible en todas las versiones),
+        // usamos directamente la API de BD para crear/obtener categorías en get_or_create_category().
     }
     
     /**

@@ -45,8 +45,34 @@ class pdf_parser {
      */
 
     public function parse_standard($filepath) {
-        $pdf = $this->parser->parseFile($filepath);
-        $text = $pdf->getText();
+        // Validaciones y manejo de errores del archivo
+        if (!file_exists($filepath) || filesize($filepath) === 0) {
+            debugging('PDF file not found or empty: ' . $filepath, DEBUG_DEVELOPER);
+            throw new \moodle_exception('invalidpdffile', 'local_questionconverter');
+        }
+
+        try {
+            $pdf = $this->parser->parseFile($filepath);
+            $text = $pdf->getText();
+            // DEBUG: log basic info about parsed text to diagnose problematic PDFs
+            $textlen = is_string($text) ? strlen($text) : 0;
+            debugging('parse_standard: parsed text length = ' . $textlen . ' for file: ' . $filepath, DEBUG_DEVELOPER);
+            debugging('parse_standard: text snippet: ' . substr($text, 0, 500), DEBUG_DEVELOPER);
+
+            $keywords = ['N° de pregunta', 'Alternativas', 'Respuesta correcta', 'Indicador'];
+            foreach ($keywords as $kw) {
+                $count = is_string($text) ? substr_count($text, $kw) : 0;
+                debugging('parse_standard: keyword "' . $kw . '" occurrences: ' . $count, DEBUG_DEVELOPER);
+            }
+        } catch (\Throwable $e) {
+            debugging('PDF parser error in parse_standard: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            throw new \moodle_exception('errorparsingpdf', 'local_questionconverter', '', null, $e->getMessage());
+        }
+
+        if (empty(trim($text))) {
+            debugging('Parsed PDF text is empty: ' . $filepath, DEBUG_DEVELOPER);
+            throw new \moodle_exception('noquestionsfound', 'local_questionconverter');
+        }
 
         $questions = $this->parse_new_format($text);
 
@@ -56,9 +82,24 @@ class pdf_parser {
         return $questions;
     }
     public function parse_with_indicators($filepath) {
-        $pdf = $this->parser->parseFile($filepath);
-        $text = $pdf->getText();
-        
+        if (!file_exists($filepath) || filesize($filepath) === 0) {
+            debugging('PDF file not found or empty: ' . $filepath, DEBUG_DEVELOPER);
+            return ['success' => false, 'indicators' => []];
+        }
+
+        try {
+            $pdf = $this->parser->parseFile($filepath);
+            $text = $pdf->getText();
+        } catch (\Throwable $e) {
+            debugging('PDF parser error in parse_with_indicators: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            return ['success' => false, 'indicators' => []];
+        }
+
+        if (empty(trim($text))) {
+            debugging('Parsed PDF text is empty for indicators: ' . $filepath, DEBUG_DEVELOPER);
+            return ['success' => false, 'indicators' => []];
+        }
+
         // Extraer indicadores
         $indicators = $this->extract_indicators($text);
         
@@ -103,6 +144,12 @@ class pdf_parser {
                 .'Retroalimentación:\s*(.*?)(?=N° de pregunta:|$)/s';
         
         preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
+
+        $countmatches = count($matches);
+        debugging('parse_new_format: found ' . $countmatches . ' matches', DEBUG_DEVELOPER);
+        if ($countmatches > 0) {
+            debugging('parse_new_format: first match number=' . $matches[0][1] . ' question snippet=' . substr($matches[0][2], 0, 200), DEBUG_DEVELOPER);
+        }
         
         $questions = [];
         foreach ($matches as $m) {
@@ -170,6 +217,16 @@ class pdf_parser {
     }
     private function extract_indicators($text) {
         preg_match_all('/Indicador\s+(\d+):\s*([^\n]*)/s', $text, $matches, PREG_OFFSET_CAPTURE);
+        
+        $indicatorcount = isset($matches[0]) ? count($matches[0]) : 0;
+        debugging('extract_indicators: found ' . $indicatorcount . ' indicator entries', DEBUG_DEVELOPER);
+        if ($indicatorcount > 0) {
+            $list = [];
+            for ($i = 0; $i < min(10, $indicatorcount); $i++) {
+                $list[] = trim($matches[1][$i][0]) . ':' . trim($matches[2][$i][0]);
+            }
+            debugging('extract_indicators: sample indicators: ' . implode(', ', $list), DEBUG_DEVELOPER);
+        }
         
         $indicators = [];
         
@@ -293,11 +350,11 @@ class pdf_parser {
         return null;
     }
     private function clean_feedback($feedback) {
-        if (empty($text)) {
+        if (empty($feedback)) {
             return '';
         }
         
-        $text = trim($text);
+        $text = trim($feedback);
         
         // Limpiar hasta "semana."
         if (preg_match('/(.*?semana\.)/s', $text, $match)) {
