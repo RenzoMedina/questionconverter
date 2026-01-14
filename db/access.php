@@ -32,4 +32,13 @@ $capabilities = [
         ],
         'clonepermissionsfrom' => 'moodle/my:manageblocks',
     ],
+    'local/questionconverter:use' => [
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ]
+    ],
 ];

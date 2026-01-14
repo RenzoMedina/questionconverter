@@ -54,4 +54,7 @@ return array(
     'Smalot\\PdfParser\\XObject\\Form' => $vendorDir . '/smalot/pdfparser/src/Smalot/PdfParser/XObject/Form.php',
     'Smalot\\PdfParser\\XObject\\Image' => $vendorDir . '/smalot/pdfparser/src/Smalot/PdfParser/XObject/Image.php',
     'Symfony\\Polyfill\\Mbstring\\Mbstring' => $vendorDir . '/symfony/polyfill-mbstring/Mbstring.php',
+    'local_questionconverter\\converter\\pdf_parser' => $baseDir . '/classes/converter/pdf_parser.php',
+    'local_questionconverter\\converter\\question_importer' => $baseDir . '/classes/converter/question_importer.php',
+    'local_questionconverter\\form\\upload_form' => $baseDir . '/classes/form/upload_form.php',
 );
