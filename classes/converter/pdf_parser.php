@@ -53,11 +53,6 @@ class pdf_parser {
             $pdf = $this->parser->parseFile($filepath);
             $text = $pdf->getText();
             
-            /* $keywords = ['N° de pregunta', 'Alternativas', 'Respuesta correcta', 'Indicador'];
-            foreach ($keywords as $kw) {
-                $count = is_string($text) ? substr_count($text, $kw) : 0;
-            
-            } */
            $questions = $this->parse_new_format($text);
 
             if (empty($questions)) {
@@ -75,7 +70,7 @@ class pdf_parser {
         return $questions;
     }
     
-/*     public function parse_with_indicators($filepath) {
+     public function parse_with_indicators($filepath) {
         if (!file_exists($filepath) || filesize($filepath) === 0) {
             return ['success' => false, 'indicators' => []];
         }
@@ -122,7 +117,7 @@ class pdf_parser {
             'success' => true,
             'indicators' => $result
         ];
-    } */
+    } 
     
     private function parse_new_format($text) {
             
@@ -203,7 +198,7 @@ class pdf_parser {
         return $questions;
     }
     
-/*     private function extract_indicators($text) {
+    private function extract_indicators($text) {
         preg_match_all('/Indicador\s+(\d+)\s*[:\s]*(.*?)(?=\n|$)/is', $text, $matches, PREG_OFFSET_CAPTURE);
         
         $indicatorcount = isset($matches[0]) ? count($matches[0]) : 0;
@@ -236,9 +231,9 @@ class pdf_parser {
         }
         
         return $indicators;
-    } */
+    } 
     
-/*     private function process_indicator($indicator) {
+ private function process_indicator($indicator) {
         $content = $indicator['content'];
         
         preg_match_all('/N°\s*de\s*pregunta:\s*(\d+)/is', $content, $matches, PREG_OFFSET_CAPTURE);
@@ -272,20 +267,21 @@ class pdf_parser {
         }
         
         return $questions;
-    } */
+    } 
     
-/*     private function process_multichoice($block) {
-        $pattern = '/N°\s*de\s*pregunta:\s*(\d+)\s+'
-                . '(.*?)'                                          
-                . '\s*Alternativas\s*'                             
-                . '[aA]\s*[)\.]\s+(.*?)(?=\s*[bB]\s*[)\.])'       
-                . '\s*[bB]\s*[)\.]\s+(.*?)(?=\s*[cC]\s*[)\.])'    
-                . '\s*[cC]\s*[)\.]\s+(.*?)(?=\s*[dD]\s*[)\.])'    
-                . '\s*[dD]\s*[)\.]\s+(.*?)(?=\s*[eE]\s*[)\.])'    
-                . '\s*[eE]\s*[)\.]\s+(.*?)(?=Respuesta)'           
-                . '\s*Respuesta\s*correcta\s*[:\s]*([a-eA-E])'     
-                . '(.*?)$'                                          
-                . '/is';
+    private function process_multichoice($block) {
+
+        $pattern = '/N° de pregunta:\s*(\d+)\s+'
+                        . '(.*?)'  
+                        . '\s*Alternativas\s+'
+                        . 'a\)\s+(.*?)\s+'  
+                        . 'b\)\s+(.*?)\s+'  
+                        . 'c\)\s+(.*?)\s+' 
+                        . 'd\)\s+(.*?)\s+'
+                        . 'e\)\s+(.*?)\s+'
+                        . 'Respuesta correcta\s+([a-eA-E])'  
+                        . '(.*?)$'
+                        . '/s';
         
         if (preg_match($pattern, $block, $m)) {
             $rest = isset($m[9]) ? $m[9] : '';
@@ -317,11 +313,12 @@ class pdf_parser {
     }
     
     private function process_essay($block) {
-        $pattern = '/N°\s*de\s*pregunta:\s*(\d+)\s+'
+
+        $pattern = '/N° de pregunta:\s*(\d+)\s+'
             . '(.*?)'
-            . '\s*Escribe\s+aquí\s+tu\s+respuesta\s*'
-            . '(?:Retroalimentación\s*[:\s]*(.*?))?$'
-            . '/is';
+            . '\s*Escribe aquí tu respuesta\s*'
+            . '(?:Retroalimentación:\s*(.*?))?$'
+            . '(?=\s*$)/s';
         
         if (preg_match($pattern, $block, $m)) {
             $feedback = isset($m[3]) ? trim($m[3]) : '';
@@ -336,7 +333,7 @@ class pdf_parser {
         }
         
         return null;
-    } */
+    } 
     
     private function clean_feedback($feedback) {
         if (empty($feedback)) {
