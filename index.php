@@ -152,8 +152,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
                 }
             }
         }
-
-        // En este punto $filepath debe apuntar al archivo en disco listo para parsear
         
         // Obtener si tiene indicadores
         $with_indicators = optional_param('with_indicators', 0, PARAM_INT);
@@ -244,6 +242,7 @@ $templatedata = [
     'form_action' => (new moodle_url('/local/questionconverter/index.php'))->out(false),
     'sesskey' => sesskey(),
     'courseid' => $courseid,
+    'year'=> date('Y'),
     'message' => get_string('message', 'local_questionconverter'),
     'footer' => get_string('stringfooter', 'local_questionconverter'),
     'name-return' => get_string('name-return', 'local_questionconverter'),

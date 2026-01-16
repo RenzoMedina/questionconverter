@@ -16,7 +16,13 @@ It is designed for teaching teams or managers who work with large volumes of que
 
 * Optimized for educational institutions: Optimized for educational institutions
 
-* Compatible with multiple question types: Multiple choice, true/false, and more (depending on the PDF content).
+* Compatible with multiple question types: Multiple choice and essay (depending on the PDF content).
+
+## 🌐 Future scalability ##
+
+* Add other types of questions such as true/false, short answer, and more.
+
+* Analyze the number of alternatives, such as 3 or 4. 
 
 ## 🛠️ Requirements ##
 
@@ -49,7 +55,7 @@ to complete the installation from the command line.
 
 ## License ##
 
-2025 Renzo Medina <medinast30@gmail.com>
+2026 Renzo Medina <medinast30@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
