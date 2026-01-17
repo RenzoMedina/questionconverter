@@ -22,7 +22,7 @@ jobs:
       - name: Obtener version
         id: version
         run: |
-          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION=$(date +%Y%m%d-%H%M%S)
