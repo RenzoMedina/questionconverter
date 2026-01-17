@@ -147,32 +147,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
                     $err = error_get_last();
                     throw new moodle_exception('erroruploadfile', 'local_questionconverter');
                 } else {
-                    // Borrar el temporal original si copy tuvo éxito
+                    /* Borrar el temporal original si copy tuvo éxito */
                     @unlink($file['tmp_name']);
                 }
             }
         }
         
-        // Obtener si tiene indicadores
+        /* Obtener si tiene indicadores */
         $with_indicators = optional_param('with_indicators', 0, PARAM_INT);
         
-        // Parsear el PDF
+        /* Parsear el PDF */
         $parser = new pdf_parser();
         
         if ($with_indicators) {
-            // Formato con indicadores
+            /* Formato con indicadores */
             $result = $parser->parse_with_indicators($filepath);
             
             if (empty($result['indicators'])) {
                 throw new moodle_exception('noindicatorsfound', 'local_questionconverter');
             }
             
-            // Importar cada indicador como categoría separada
+            /* Importar cada indicador como categoría separada */
             $importer = new question_importer($context);
             $imported_data = [];
             
             foreach ($result['indicators'] as $indicator) {
-                $category_name = "Indicador {$indicator['number']}: {$indicator['title']}";
+                $name_file = clean_param($filename, PARAM_TEXT);
+                $name_file = preg_replace('/\.pdf$/i', '', $name_file);
+                $category_name =$name_file . '_Indicador_'.$indicator['number']; /* "Indicador {$indicator['number']}: {$indicator['title']}"; */
                 $imported = $importer->import_questions(
                     $indicator['questions'],
                     $category_name,
@@ -189,14 +191,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
             $total_questions = array_sum(array_column($imported_data, 'count'));
             
         } else {
-            // Formato sin indicadores
+            /* Formato sin indicadores */
             $questions = $parser->parse_standard($filepath);
             
             if (empty($questions)) {
                 throw new moodle_exception('noquestionsfound', 'local_questionconverter');
             }
             
-            // Importar a una sola categoría
+            /* Importar a una sola categoría */
             $category_name = clean_param($filename, PARAM_TEXT);
             $category_name = preg_replace('/\.pdf$/i', '', $category_name);
             
@@ -210,13 +212,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
                 'count' => $imported['count']
             ]];
         }
-        
-        // Limpiar archivo temporal
+
+        /* Limpiar archivo temporal */
         if (file_exists($filepath)) {
             unlink($filepath);
         }
-        
-        // Redirigir a página de éxito
+
+        /* Redirigir a página de éxito */
         $success_url = new moodle_url('/local/questionconverter/success.php', [
             'courseid' => $courseid,
             'total' => $total_questions,
@@ -227,17 +229,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
         redirect($success_url);
         
     } catch (Exception $e) {
-        // Limpiar archivo temporal en caso de error
+        /* Limpiar archivo temporal en caso de error*/
         if (isset($filepath) && file_exists($filepath)) {
             unlink($filepath);
         }
-        
         \core\notification::error($e->getMessage());
     }
 }
-
 echo $OUTPUT->header();
-
 $templatedata = [
     'form_action' => (new moodle_url('/local/questionconverter/index.php'))->out(false),
     'sesskey' => sesskey(),
@@ -248,6 +247,5 @@ $templatedata = [
     'name-return' => get_string('name-return', 'local_questionconverter'),
     'link-return' => (new moodle_url('/course/view.php', ['id' => $courseid]))->out(false),
     ];
-
 echo $OUTPUT->render_from_template('local_questionconverter/main', $templatedata);
 echo $OUTPUT->footer();

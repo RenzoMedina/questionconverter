@@ -16,11 +16,10 @@
 /**
  * Page to display success message after importing questions.
  *
- * @package    local_questionconverter
- * @copyright  2025 Tu Nombre
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     local_questionconverter
+ * @copyright   2026 Renzo Medina <medinast30@gmail.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 require_once(__DIR__ . '/../../config.php');
 
 // Obtener parámetros
