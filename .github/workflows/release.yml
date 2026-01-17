@@ -61,20 +61,6 @@ jobs:
         with:
           files: "${{ env.PLUGIN_NAME }}.zip"
           generate_release_notes: true
-          body: |
-          ## 📦 Plugin para Moodle: ${{ env.PLUGIN_NAME }}
-            
-            **Versión:** ${{ steps.version.outputs.version }}
-            
-            ### Instalación
-            1. Descarga el archivo `${{ env.PLUGIN_NAME }}.zip`
-            2. En Moodle: **Administración del sitio** → **Plugins** → **Instalar plugins**
-            3. Sube el archivo ZIP
-            4. Sigue el asistente de instalación
-            
-            ### Requisitos
-            - Moodle 4.1+
-            - PHP 8.1+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
