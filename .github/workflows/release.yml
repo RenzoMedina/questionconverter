@@ -2,9 +2,14 @@ name: Deploy Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*.*.*'
   workflow_dispatch:
+
+env:
+  PLUGIN_NAME: 'questionvonverter'
 
 jobs:
   build:
@@ -13,10 +18,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          path: plugin
       
-      - name: Get version
+      - name: Obtener version
         id: version
         run: |
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
@@ -25,36 +28,26 @@ jobs:
             VERSION=$(date +%Y%m%d-%H%M%S)
           fi
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          mv ${{ env.PLUGIN_NAME }}.zip ${GITHUB_WORKSPACE}/
+          cd ${GITHUB_WORKSPACE}
+          echo "¡ZIP creado correctamente!"
+          ls -lh ${{ env.PLUGIN_NAME }}.zip
       
-      - name: Get plugin name
-        id: plugin
+      - name: Preparando archivo del plugin
         run: |
-          cd plugin
-          if [ -f "version.php" ]; then
-            COMPONENT=$(grep -oP "(?<=component = ')[^']*" version.php || echo "")
-            if [ -n "$COMPONENT" ]; then
-                PLUGIN_NAME=$(echo $COMPONENT | sed 's/local_//')
-              fi
-          fi
-          if [ -z "$PLUGIN_NAME" ]; then
-            PLUGIN_NAME=$(basename ${{ github.repository }})
-          fi
-          
-          echo "name=${PLUGIN_NAME}" >> $GITHUB_OUTPUT
-          echo "Plugin name: ${PLUGIN_NAME}"
+          echo "Limpiando los archivo inncesesarios..."
+          rm -rf .git .github .gitignore node_modules tests .vscode
+          find . -name ".DS_Store" -delete
+          echo "Archivos limpiados!"
+          ls -la
 
       - name: Create ZIP for Moodle
         run: |
-          PLUGIN_NAME="${{ steps.plugin.outputs.name }}"
-          cd plugin
-          rm -rf .git .github .gitignore node_modules tests
-          find . -name ".DS_Store" -type f -delete
-          
-          cd ..
-          mv plugin ${PLUGIN_NAME}
-          zip -r ${PLUGIN_NAME}.zip ${PLUGIN_NAME}
-          echo  "Created: ${PLUGIN_NAME}.zip"
-          ls -lh ${PLUGIN_NAME}.zip
+          echo "Creando ZIP para: ${{ env.PLUGIN_NAME }}"
+          mkdir -p /tmp/build
+          cp -r . /tmp/build/${{ env.PLUGIN_NAME }}
+          cd /tmp/build
+          zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
 
       - name: Create Release
         if: github.ref_type == 'tag'
@@ -70,5 +63,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.plugin_info.outputs.name }}-${{ steps.plugin_info.outputs.version }}
-          path: "*.zip"
+          path: "${{ env.PLUGIN_NAME }}.zip"
           retention-days: 30
