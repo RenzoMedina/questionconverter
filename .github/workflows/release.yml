@@ -3,7 +3,7 @@ name: Deploy Release
 on:
   push:
     tags:
-      - 'v*'
+      - 'v*.*.*'
   workflow_dispatch:
 
 jobs:
@@ -13,44 +13,47 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        width:
+          path: plugin
       
-      - name: Get plugin
-        id: plugin_info
+      - name: Get version
+        id: version
         run: |
-          if [ -f "version.php" ]; then
-            PLUGIN_NAME=$(grep -oP "(?<=component = ')[^']*" version.php | sed 's/local_//')
-          else
-            # Fallback al nombre del repositorio
-            PLUGIN_NAME=$(basename ${{ github.repository }})
-          fi
-          echo "name=${PLUGIN_NAME}" >> $GITHUB_OUTPUT
-          
-          if [[ ${{ github.ref }} == refs/tags/* ]]; then
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
             VERSION=${GITHUB_REF#refs/tags/v}
           else
             VERSION=$(date +%Y%m%d-%H%M%S)
           fi
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
+      
+      - name: Get plugin name
+        id: plugin
+        run: |
+          cd plugin
+          if [ -f "version.php" ]; then
+            COMPONENT=$(grep -oP "(?<=component = ')[^']*" version.php || echo "")
+            if [ -n "$COMPONENT" ]; then
+                PLUGIN_NAME=$(echo $COMPONENT | sed 's/local_//')
+              fi
+          fi
+          if [ -z "$PLUGIN_NAME" ]; then
+            PLUGIN_NAME=$(basename ${{ github.repository }})
+          fi
+          
+          echo "name=${PLUGIN_NAME}" >> $GITHUB_OUTPUT
+          echo "Plugin name: ${PLUGIN_NAME}"
 
       - name: Create ZIP for Moodle
         run: |
-          mkdir -p temp/${PLUGIN_NAME}
+          PLUGIN_NAME="${{ steps.plugin.outputs.name }}"
+          cd plugin
+          rm -rf .git .github .gitignore node_modules tests
+          find . -name ".DS_Store" -type f -delete
           
-          rsync -av --progress . temp/${PLUGIN_NAME} \
-            --exclude .git \
-            --exclude .github \
-            --exclude node_modules \
-            --exclude tests \
-            --exclude temp \
-            --exclude .gitignore
-          
-          cd temp
-          zip -r ../${PLUGIN_NAME}.zip ${PLUGIN_NAME}
           cd ..
-          
-          rm -rf temp
-          
-          echo "Created: ${PLUGIN_NAME}.zip"
+          mv plugin ${PLUGIN_NAME}
+          zip -r ${PLUGIN_NAME}.zip ${PLUGIN_NAME}
+          echo  "Created: ${PLUGIN_NAME}.zip"
           ls -lh ${PLUGIN_NAME}.zip
 
       - name: Create Release
