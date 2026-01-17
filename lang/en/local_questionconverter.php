@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['name-return'] = 'Back to Course';
 $string['message'] = 'Easily convert your PDF documents with questions to the Moodle platform quickly and easily.';
 $string['pluginname'] = 'Question Converter';
+$string['stringfooter'] = 'DRA - Classroom Management';
 
 
 // Mensajes de error
@@ -37,8 +38,8 @@ $string['noindicatorsfound'] = 'No indicators were found in the PDF.';
 $string['noquestionsfound'] = 'No valid questions were found in the PDF.';
 
 // Página de éxito
-$string['stringfooter'] = 'DRA - Classroom management';
-$string['message-success'] = '¡Import Successful!';
+$string['message-success'] = 'Questions have been imported successfully!';
+$string['importsuccess'] = 'Import successful!';
 $string['questionsimported'] = 'Questions Imported';
 $string['categoriescreated'] = 'Categories Created';
 $string['redirecting'] = 'You will be redirected to the question bank in';

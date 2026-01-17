@@ -120,11 +120,6 @@
         }
     });
 
-/*     document.getElementById('qc-document-file').addEventListener('change', function() {
-        const fileName = this.files[0] ? this.files[0].name : 'Ningún archivo seleccionado'
-        document.querySelector('.file-button').textContent = fileName
-    }) */
-
     const loader = document.getElementById("qc-loader")
     document.getElementById('formulario').addEventListener('submit', function(e) {
         loader.classList.remove('hidden')
