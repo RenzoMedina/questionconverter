@@ -66,6 +66,9 @@ class question_importer {
                 } elseif ($q['type'] === 'essay') {
                     $this->import_essay($q, $category->id);
                     $imported_count++;
+                } elseif ($q['type'] === 'truefalse') {
+                    $this->import_truefalse($q, $category->id);
+                    $imported_count++;
                 }
             } catch (\Exception $e) {
                 debugging('Error importing question: ' . $e->getMessage(), DEBUG_DEVELOPER);
@@ -186,9 +189,16 @@ class question_importer {
         $fraction_map = [
             'a' => 0, 'b' => 0, 'c' => 0, 'd' => 0, 'e' => 0
         ];
-        $fraction_map[$data['correct_answer']] = 1;
+
+        if (isset($data['correct_answer']) && isset($fraction_map[$data['correct_answer']])) {
+            $fraction_map[$data['correct_answer']] = 1;
+        }
     
         foreach (['a', 'b', 'c', 'd', 'e'] as $letter) {
+
+            if (!isset($data['options'][$letter])) {
+                continue;
+            }
             $answer = new \stdClass();
             $answer->question = $question->id;
             $answer->answer = '<p>' . $data['options'][$letter] . '</p>';
@@ -207,6 +217,71 @@ class question_importer {
         return $question->id;
     }
     
+    private function import_truefalse($data, $categoryid) {
+        global $DB, $USER;
+
+        // Crear pregunta base
+        $question = new \stdClass();
+        $question->category = $categoryid;
+        $question->name = 'P' . $data['number'];
+        $question->questiontext = $data['question'];
+        $question->questiontextformat = FORMAT_HTML;
+        $question->generalfeedback = '';
+        $question->generalfeedbackformat = FORMAT_HTML;
+        $question->defaultmark = 0.5;
+        $question->penalty = 1;
+        $question->qtype = 'truefalse';
+        $question->length = 1;
+        $question->stamp = make_unique_id_code();
+        $question->version = make_unique_id_code();
+        $question->hidden = 0;
+        $question->timecreated = time();
+        $question->timemodified = time();
+        $question->createdby = $USER->id;
+        $question->modifiedby = $USER->id;
+        
+        $question->id = $DB->insert_record('question', $question);
+        
+        // Determinar respuesta correcta
+        $correct_answer = isset($data['correct_answer']) ? strtolower($data['correct_answer']) : '';
+        $is_true = ($correct_answer === 'verdadero' || $correct_answer === 'true' || $correct_answer === 'a');
+        
+        // Crear respuesta "Verdadero"
+        $answer_true = new \stdClass();
+        $answer_true->question = $question->id;
+        $answer_true->answer = get_string('true', 'qtype_truefalse');
+        $answer_true->answerformat = FORMAT_MOODLE;
+        $answer_true->fraction = $is_true ? 1 : 0;
+        $answer_true->feedback = $is_true ? ($data['feedback'] ?? '') : '';
+        $answer_true->feedbackformat = FORMAT_HTML;
+        
+        $trueid = $DB->insert_record('question_answers', $answer_true);
+        
+        // Crear respuesta "Falso"
+        $answer_false = new \stdClass();
+        $answer_false->question = $question->id;
+        $answer_false->answer = get_string('false', 'qtype_truefalse');
+        $answer_false->answerformat = FORMAT_MOODLE;
+        $answer_false->fraction = $is_true ? 0 : 1;
+        $answer_false->feedback = !$is_true ? ($data['feedback'] ?? '') : '';
+        $answer_false->feedbackformat = FORMAT_HTML;
+        
+        $falseid = $DB->insert_record('question_answers', $answer_false);
+        
+        // Opciones de truefalse
+        $truefalse = new \stdClass();
+        $truefalse->questionid = $question->id;
+        $truefalse->trueanswer = $trueid;
+        $truefalse->falseanswer = $falseid;
+        
+        $DB->insert_record('qtype_truefalse_options', $truefalse);
+        
+        $this->create_question_bank_entry($question);
+        
+        return $question->id;
+
+    }
+
     /**
      * Importar pregunta de ensayo
      * 
