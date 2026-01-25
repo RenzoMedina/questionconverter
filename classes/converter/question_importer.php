@@ -308,11 +308,12 @@ class question_importer {
         
         // Opciones de truefalse
         $truefalse = new \stdClass();
-        $truefalse->questionid = $question->id;
+        $truefalse->question = $question->id;
         $truefalse->trueanswer = $trueid;
         $truefalse->falseanswer = $falseid;
+        $truefalse->showstandardinstruction = 1;
         
-        $DB->insert_record('qtype_truefalse_options', $truefalse);
+        $DB->insert_record('question_truefalse', $truefalse);
     
         return $question->id;
 
