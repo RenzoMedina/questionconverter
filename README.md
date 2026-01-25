@@ -12,17 +12,21 @@ It is designed for teaching teams or managers who work with large volumes of que
 
 * Classification by indicators or sections: Organizes questions according to the document structure.
 
-* irect creation in the question bank: Uses Moodle's internal API to insert questions without manual steps.
+* Irect creation in the question bank: Uses Moodle's internal API to insert questions without manual steps.
 
 * Optimized for educational institutions: Optimized for educational institutions
 
-* Compatible with multiple question types: Multiple choice and essay (depending on the PDF content).
+* Compatible with multiple question types: multichoice, essay and truefalse (depending on the PDF content).
+
+* Analyze the number of alternatives, such as 3 or 4. 
 
 ## 🌐 Future scalability ##
 
-* Add other types of questions such as true/false, short answer, and more.
+* Extract images and insert them into the questions
 
-* Analyze the number of alternatives, such as 3 or 4. 
+* Managing multiple PDFs 
+
+* Handling other types of formats
 
 ## 🛠️ Requirements ##
 
