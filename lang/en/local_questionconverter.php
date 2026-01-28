@@ -25,24 +25,20 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['name-return'] = 'Back to Course';
-$string['message'] = 'Easily convert your PDF documents with questions to the Moodle platform quickly and easily.';
-$string['pluginname'] = 'Question Converter';
-$string['stringfooter'] = 'DRA - Classroom Management';
-
-
-// Mensajes de error
-$string['erroruploadfile'] = 'Error loading PDF file';
+$string['backtocourse'] = 'Back to Course';
+$string['categoriescreated'] = 'Categories Created';
+$string['errorparsingpdf'] = 'Error parsing PDF (see debug messages for more details)';
+$string['erroruploadfile'] = 'Error uploading PDF file';
+$string['gotoquestionbank'] = 'Go to Question Bank';
+$string['importsuccess'] = 'Import successful!';
 $string['invalidpdffile'] = 'The file must be a valid PDF.';
+$string['message'] = 'Easily convert your PDF documents with questions to the Moodle platform quickly and easily.';
+$string['message-success'] = 'Questions have been imported successfully!';
+$string['name-return'] = 'Back to Course';
 $string['noindicatorsfound'] = 'No indicators were found in the PDF.';
 $string['noquestionsfound'] = 'No valid questions were found in the PDF.';
-
-// Página de éxito
-$string['message-success'] = 'Questions have been imported successfully!';
-$string['importsuccess'] = 'Import successful!';
+$string['pluginname'] = 'Question Converter';
 $string['questionsimported'] = 'Questions Imported';
-$string['categoriescreated'] = 'Categories Created';
 $string['redirecting'] = 'You will be redirected to the question bank in';
 $string['seconds'] = 'seconds....';
-$string['gotoquestionbank'] = 'Go to Question Bank';
-$string['backtocourse'] = 'Back to Course';
+$string['stringfooter'] = 'DRA - Classroom Management';

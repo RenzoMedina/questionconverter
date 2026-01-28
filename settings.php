@@ -26,13 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 
 if (is_siteadmin()) {
     $settings = new admin_settingpage(
-        'local_questionconverter_settings', 
+        'local_questionconverter_settings',
         new lang_string('pluginname', 'local_questionconverter')
     );
-    
-    if ($ADMIN->fulltree) {
-        // Configuraciones del plugin aquí
-    }
-    
     $ADMIN->add('localplugins', $settings);
 }

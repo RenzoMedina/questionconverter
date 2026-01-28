@@ -24,19 +24,6 @@
  */
 
 /**
- * Add link to Question Converter on front page navigation if user has capability.
- */
-/* function local_questionconverter_extend_navigation_frontpage(navigation_node $frontpage) {
-    if (has_capability('local/questionconverter:view', context_system::instance())) {
-        $frontpage->add(
-            get_string('pluginname', 'local_questionconverter'),
-            new moodle_url('/local/questionconverter/index.php'),
-            navigation_node::TYPE_CUSTOM,
-        );
-    }
-} */
-
-/**
  * Summary of local_questionconverter_extend_navigation_course
  * @param mixed $navigation
  * @param mixed $coursenode

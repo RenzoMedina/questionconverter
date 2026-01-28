@@ -24,25 +24,21 @@
  */
 
 defined('MOODLE_INTERNAL') || die();
-$string['name-return'] = 'Volver al curso';
-$string['message'] = 'Convierta fácilmente sus documentos PDF de preguntas a plataforma Moodle directa de manera rápida y sencilla.';
-$string['pluginname'] = 'Convertidor de preguntas';
-$string['stringfooter'] = 'DRA - Gestión de aula';
 
-
-// Mensajes de error
+$string['backtocourse'] = 'Volver al Curso';
+$string['categoriescreated'] = 'Categorías Creadas';
+$string['errorparsingpdf'] = 'Error al procesar el PDF (ver mensajes de depuración para más detalles)';
 $string['erroruploadfile'] = 'Error al cargar el archivo PDF';
+$string['gotoquestionbank'] = 'Ir al Banco de Preguntas';
+$string['importsuccess'] = '¡Importación exitosa!';
 $string['invalidpdffile'] = 'El archivo debe ser un PDF válido';
+$string['message'] = 'Convierta fácilmente sus documentos PDF de preguntas a plataforma Moodle directa de manera rápida y sencilla.';
+$string['message-success'] = 'las preguntas se han importado correctamente!';
+$string['name-return'] = 'Volver al curso';
 $string['noindicatorsfound'] = 'No se encontraron indicadores en el PDF';
 $string['noquestionsfound'] = 'No se encontraron preguntas válidas en el PDF';
-$string['errorparsingpdf'] = 'Error al procesar el PDF (ver mensajes de depuración para más detalles)';
-
-// Página de éxito
-$string['message-success'] = 'las preguntas se han importado correctamente!';
-$string['importsuccess'] = '¡Importación exitosa!';
+$string['pluginname'] = 'Convertidor de preguntas';
 $string['questionsimported'] = 'Preguntas Importadas';
-$string['categoriescreated'] = 'Categorías Creadas';
 $string['redirecting'] = 'Serás redirigido al banco de preguntas en';
 $string['seconds'] = 'segundos...';
-$string['gotoquestionbank'] = 'Ir al Banco de Preguntas';
-$string['backtocourse'] = 'Volver al Curso';
+$string['stringfooter'] = 'DRA - Gestión de aula';

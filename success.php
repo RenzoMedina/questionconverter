@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+
 /**
  * Page to display success message after importing questions.
  *
@@ -20,28 +21,28 @@
  * @copyright   2026 Renzo Medina <medinast30@gmail.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 require_once(__DIR__ . '/../../config.php');
 
-// Obtener parámetros
+// Obtener parámetros.
 $courseid = required_param('courseid', PARAM_INT);
 $total = required_param('total', PARAM_INT);
 $categories = optional_param('categories', 1, PARAM_INT);
 $categoryid = required_param('categoryid', PARAM_INT);
 
-// Verificar acceso
+// Verificar acceso.
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
 $context = context_course::instance($courseid);
 
 require_login($course);
 require_capability('moodle/question:add', $context);
 
-$PAGE->set_url(new moodle_url('/local/questionconverter/success.php', 
-            [ 
-                'courseid' => $courseid, 
-                'total' => $total, 
-                'categories' => $categories, 
-                'categoryid' => $categoryid 
-            ]));
+$PAGE->set_url(new moodle_url('/local/questionconverter/success.php', [
+    'courseid' => $courseid,
+    'total' => $total,
+    'categories' => $categories,
+    'categoryid' => $categoryid,
+]));
 
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('incourse');
@@ -50,10 +51,10 @@ $PAGE->set_heading($course->fullname);
 $PAGE->set_course($course);
 $PAGE->requires->css(new moodle_url('/local/questionconverter/tailwindcss/dist/output.css'));
 
-// URL para ir al banco de preguntas
-$question_bank_url = new moodle_url('/question/edit.php', [
+// URL para ir al banco de preguntas.
+$questionbankurl = new moodle_url('/question/edit.php', [
     'courseid' => $courseid,
-    'cat' => $categoryid . ',' . $context->id
+    'cat' => $categoryid . ',' . $context->id,
 ]);
 
 echo $OUTPUT->header();
@@ -61,11 +62,10 @@ echo $OUTPUT->header();
 $templatedata = [
     'total' => $total,
     'categories' => $categories,
-    'questionbankurl' => $question_bank_url->out(false),
+    'questionbankurl' => $questionbankurl->out(false),
     'courseurl' => (new moodle_url('/course/view.php', ['id' => $courseid]))->out(false),
-
     'message-success' => get_string('message-success', 'local_questionconverter'),
-    'importsuccess' => get_string('importsuccess', 'local_questionconverter'), 
+    'importsuccess' => get_string('importsuccess', 'local_questionconverter'),
     'questionsimported' => get_string('questionsimported', 'local_questionconverter'),
     'categoriescreated' => get_string('categoriescreated', 'local_questionconverter'),
     'redirecting' => get_string('redirecting', 'local_questionconverter'),

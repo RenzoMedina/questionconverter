@@ -25,8 +25,11 @@ namespace local_questionconverter\converter;
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/local/questionconverter/vendor/autoload.php');
 
-use \Smalot\PdfParser\Parser;
+use Smalot\PdfParser\Parser;
 
+/**
+ * Summary of pdf_parser
+ */
 class pdf_parser {
     /** @var Parser Parser de PDF */
     private $parser;
@@ -63,10 +66,14 @@ class pdf_parser {
         }
         return $questions;
     }
+     /**
+      * Summary of parse_with_indicators
+      * @param mixed $filepath
+      * @return array{indicators: array, success: bool}
+      */
      public function parse_with_indicators($filepath) {
         if (!file_exists($filepath) || filesize($filepath) === 0) {
-            return [
-                'success' => false, 
+            return ['success' => false, 
                 'indicators' => [],
                 ];
         }
@@ -116,7 +123,12 @@ class pdf_parser {
             'success' => true,
             'indicators' => $result,
         ];
-    } 
+    }
+    /**
+     * Summary of parse_new_format
+     * @param mixed $text
+     * @return array{feedback: mixed, number: mixed, question: string, type: array|string[]}
+     */
     private function parse_new_format($text) {
         $text = $this->clean_full_text($text);
         $pattern = '/N°\s*de\s+pregunta:\s*(\d+)\s*(.*?)\s*Retroalimentación:\s*(.*?)(?=N°\s*de\s+pregunta:|$)/s';
@@ -133,6 +145,11 @@ class pdf_parser {
         }
         return $questions; 
     }
+    /**
+     * Summary of parse_old_format
+     * @param mixed $text
+     * @return array{correct_answer: string, feedback: string, number: string, options: array, question: string, type: string[]}
+     */
     private function parse_old_format($text) {
         $text = preg_replace("/\r\n|\r/", "\n", $text);
         $text = preg_replace('/.*?plazos\s+establecidos\.\s*/is', '', $text);
@@ -172,6 +189,11 @@ class pdf_parser {
         }
         return $questions;
     }
+    /**
+     * Summary of extract_indicators
+     * @param mixed $text
+     * @return array{content: string, title: string[]}
+     */
     private function extract_indicators($text) {
         preg_match_all('/Indicador\s+(\d+)\s*[:\s]*(.*?)(?=\n|$)/is', $text, $matches, PREG_OFFSET_CAPTURE);
         $indicatorcount = isset($matches[0]) ? count($matches[0]) : 0;
@@ -199,7 +221,12 @@ class pdf_parser {
             ];
         }    
         return $indicators;
-    } 
+    }
+    /**
+     * Summary of process_indicator
+     * @param mixed $indicator
+     * @return array{feedback: string, number: string, question: string, type: array|string[]}
+     */
     private function process_indicator($indicator) {
         $content = $indicator['content'];      
         preg_match_all('/N°\s*de\s*pregunta:\s*(\d+)/is', $content, $matches, PREG_OFFSET_CAPTURE);
@@ -221,7 +248,11 @@ class pdf_parser {
         } 
         return $questions;
     }  
-    
+    /**
+     * Summary of category_question
+     * @param mixed $content
+     * @return string|string[]
+     */
     private function category_question($content){
         list($alternative_tf, $type_ft) = $this->extract_options_truefalse($content);
         if ($type_ft !== '') {
@@ -238,6 +269,11 @@ class pdf_parser {
         
         return '';
     }
+    /**
+     * Summary of process_question_from_block
+     * @param mixed $block
+     * @return array[]|array{feedback: string, number: string, question: string, type: string|string[]|null}
+     */
     private function process_question_from_block($block){
         $pattern = '/N°\s*de\s+pregunta:\s*(\d+)\s*(.*?)\s*Retroalimentación:\s*(.*?)(?=N°\s*de\s+pregunta:\s*\d+|\z)/s';
         if (!preg_match($pattern, $block, $m)) {
@@ -275,7 +311,11 @@ class pdf_parser {
 
         return $question;
     }
-
+    /**
+     * Summary of extract_options_multichoice
+     * @param mixed $content
+     * @return array<string|string[]>
+     */
     private function extract_options_multichoice($content){
         $options = [];
         $type = '';
@@ -296,7 +336,11 @@ class pdf_parser {
         }
         return [$options, $type];
     }
-
+    /**
+     * Summary of extract_options_essay
+     * @param mixed $content
+     * @return string
+     */
     private function extract_options_essay($content){
         $type = '';
         $pattern = '/Escribe aquí tu respuesta/s';
@@ -305,6 +349,11 @@ class pdf_parser {
         }
         return $type;
     }
+    /**
+     * Summary of extract_options_truefalse
+     * @param mixed $content
+     * @return array<string|string[]>
+     */
     private function extract_options_truefalse($content) {
         $type = '';
         $options = [];
@@ -328,7 +377,11 @@ class pdf_parser {
         }
         return [$options, $type];
     }
-
+    /**
+     * Summary of extract_answer
+     * @param mixed $content
+     * @return string
+     */
     private function extract_answer($content){
         $pattern = '/Respuesta\s*correcta\s*([a-e]|verdadero|falso)/si';
         
@@ -338,7 +391,11 @@ class pdf_parser {
         
         return '';
     }
-
+    /**
+     * Summary of clean_question
+     * @param mixed $content
+     * @return string
+     */
     private function clean_question($content) {
         $cleaned = preg_replace('/\n+/', ' ', $content);
         $cleaned = preg_replace('/\s+Alternativas\s+[a-e]\).*$/is', '', $content);
@@ -348,7 +405,11 @@ class pdf_parser {
         
         return trim($cleaned);
     }
-
+    /**
+     * Summary of clean_feedback
+     * @param mixed $feedback
+     * @return string
+     */
     private function clean_feedback($feedback) {
         if (empty($feedback)) {
             return '';
@@ -388,7 +449,12 @@ class pdf_parser {
         
         return trim($text);
     }
-
+    /**
+     * Summary of proccess_question
+     * @param mixed $content
+     * @param mixed $matches
+     * @return array[]|array{feedback: mixed, number: mixed, question: string, type: string|string[]|null}
+     */
     private function proccess_question($content,$matches = null){
         if ($matches === null){
             $pattern = '/N°\s*de\s+pregunta:\s*(\d+)\s*(.*?)\s*Retroalimentación:\s*(.*?)(?=N°\s*de\s+pregunta:\s*\d+|\z)/s';
@@ -425,7 +491,12 @@ class pdf_parser {
 
         return $question;
     }
-
+    /**
+     * Summary of get_options
+     * @param mixed $text
+     * @param mixed $type
+     * @return string|string[]
+     */
     private function get_options($text, $type){
         switch($type){
             case 'multichoice':
@@ -441,7 +512,11 @@ class pdf_parser {
                 return [];
         }
     }
-
+    /**
+     * Summary of clean_answer
+     * @param mixed $answer
+     * @return string
+     */
     private function clean_answer($answer) {
         $answer = trim($answer);
 
@@ -453,7 +528,11 @@ class pdf_parser {
             return '';
         }
     }
-    
+    /**
+     * Summary of clean_full_text
+     * @param mixed $content
+     * @return string
+     */
     private function clean_full_text($content){
         $question = preg_split('/(N°\s*de\s*pregunta:\s*\d+)/i', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
         $clean_text = '';
@@ -470,6 +549,11 @@ class pdf_parser {
         }
         return trim($clean_text);
     }
+    /**
+     * Summary of clean_question_block
+     * @param mixed $block
+     * @return string
+     */
     private function clean_question_block($block){
         if(preg_match('/(.*?Retroalimentación:.*?)(?=\n\s*\d+\s+[A-Z]|$)/s', $block, $matches)){
         return trim($matches[1]);
