@@ -225,6 +225,19 @@ $templatedata = [
     'footer' => get_string('stringfooter', 'local_questionconverter'),
     'name-return' => get_string('name-return', 'local_questionconverter'),
     'link-return' => (new moodle_url('/course/view.php', ['id' => $courseid]))->out(false),
+    'text-change-file' => get_string('text-change-file', 'local_questionconverter'),
+    'text-clear' => get_string('text-clear', 'local_questionconverter'),
+    'text-convert-and-import' => get_string('text-convert-and-import', 'local_questionconverter'),
+    'text-grid-info' => get_string('text-grid-info', 'local_questionconverter'),
+    'text-grid-info-help' => get_string('text-grid-info-help', 'local_questionconverter'),
+    'text-grid-success' => get_string('text-grid-success', 'local_questionconverter'),
+    'text-grid-success-help' => get_string('text-grid-success-help', 'local_questionconverter'),
+    'text-indicators' => get_string('text-indicators', 'local_questionconverter'),
+    'text-loading' => get_string('text-loading', 'local_questionconverter'),
+    'text-loading-help' => get_string('text-loading-help', 'local_questionconverter'),
+    'text-selectcategory' => get_string('text-selectcategory', 'local_questionconverter'),
+    'text-selectcategory-help' => get_string('text-selectcategory-help', 'local_questionconverter'),
+    'text-uploadpdf' => get_string('text-uploadpdf', 'local_questionconverter'),
     ];
 echo $OUTPUT->render_from_template('local_questionconverter/main', $templatedata);
 echo $OUTPUT->footer();
