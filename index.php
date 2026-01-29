@@ -68,8 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
         $file = null;
         $filepath = null;
         $isdraft = false;
+        $filename = null;
         if (isset($_FILES['pdffile']) && $_FILES['pdffile']['error'] === UPLOAD_ERR_OK) {
             $file = $_FILES['pdffile'];
+            $filename = clean_filename($file['name']);
         } else {
             $errcode = $_FILES['pdffile']['error'] ?? null;
             // Intentar obtener archivo desde draft area (filepicker).
@@ -88,7 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
                         if (!is_dir($tempdir)) {
                             @mkdir($tempdir, 0777, true);
                         }
-                        $filename = $f->get_filename();
+                        if ($filename === null) {
+                            $filename = clean_filename($f->get_filename());
+                        }
                         $filepath = $tempdir . '/' . $filename;
                         file_put_contents($filepath, $f->get_content());
                         $file = [
@@ -120,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
 
         // Si no es draft, mover archivo a directorio temporal (si ya creamos el archivo desde draft, ya está en temp).
         if (!$isdraft) {
-            $filename = clean_filename($file['name']);
             $tempdir = make_temp_directory('questionconverter');
 
             // Asegurar que el directorio temporal exista.
