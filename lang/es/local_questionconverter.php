@@ -38,6 +38,7 @@ $string['name-return'] = 'Volver al curso';
 $string['noindicatorsfound'] = 'No se encontraron indicadores en el PDF';
 $string['noquestionsfound'] = 'No se encontraron preguntas válidas en el PDF';
 $string['pluginname'] = 'Convertidor de preguntas';
+$string['privacy:metadata'] = 'El plugin Convertidor de Preguntas no almacena ningún dato personal.';
 $string['questionsimported'] = 'Preguntas Importadas';
 $string['redirecting'] = 'Serás redirigido al banco de preguntas en';
 $string['seconds'] = 'segundos...';

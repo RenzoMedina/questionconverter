@@ -38,6 +38,7 @@ $string['name-return'] = 'Back to Course';
 $string['noindicatorsfound'] = 'No indicators were found in the PDF.';
 $string['noquestionsfound'] = 'No valid questions were found in the PDF.';
 $string['pluginname'] = 'Question Converter';
+$string['privacy:metadata'] = 'The Question Converter plugin does not store any personal data.';
 $string['questionsimported'] = 'Questions Imported';
 $string['redirecting'] = 'You will be redirected to the question bank in';
 $string['seconds'] = 'seconds....';
