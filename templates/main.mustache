@@ -13,9 +13,9 @@
 
     You should have received a copy of the GNU General Public License
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>;.
-}}
-{{!
+
     @template local_questionconverter/main
+    @description Página principal del conversor
 
     Example context (json):
     { 
@@ -55,14 +55,14 @@
     <div class="max-w-4xl mx-auto">
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
             <div class="p-8">
-                    <form action="{{form_action}}" method="post" enctype="multipart/form-data" id="formulario">
+                    <form action="{{form_action}}" method="post" enctype="multipart/form-data" id="formulario" {{^form_action}}action="."{{/form_action}}>
                     
                     <input type="hidden" name="sesskey" value="{{sesskey}}">
                     <input type="hidden" name="courseid" value="{{courseid}}">
 
                     <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" value="1" class="sr-only peer" name="with_indicators">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-100  rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                    <span class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-100  rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></span>
                     <span class="ms-3 text-md font-medium text-gray-700">{{text-indicators}}</span>
                     </label>
                     

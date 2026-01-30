@@ -60,7 +60,7 @@ class question_importer {
             }
             $type = strtolower(trim($q['type']));
             try {
-                switch($type) {
+                switch ($type) {
                     case 'multichoice':
                         $this->import_multichoice($q, $category->id);
                         $importedcount++;

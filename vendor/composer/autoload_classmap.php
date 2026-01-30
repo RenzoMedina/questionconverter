@@ -56,5 +56,5 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\Mbstring' => $vendorDir . '/symfony/polyfill-mbstring/Mbstring.php',
     'local_questionconverter\\converter\\pdf_parser' => $baseDir . '/classes/converter/pdf_parser.php',
     'local_questionconverter\\converter\\question_importer' => $baseDir . '/classes/converter/question_importer.php',
-    'local_questionconverter\\form\\upload_form' => $baseDir . '/classes/form/upload_form.php',
+    'local_questionconverter\\privacy\\provider' => $baseDir . '/classes/privacy/provider.php',
 );

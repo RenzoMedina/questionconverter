@@ -23,7 +23,7 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->libdir. '/questionlib.php');
+require_once($CFG->libdir . '/questionlib.php');
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once(__DIR__ . '/vendor/autoload.php');
@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
             foreach ($result['indicators'] as $indicator) {
                 $namefile = clean_param($filename, PARAM_TEXT);
                 $namefile = preg_replace('/\.pdf$/i', '', $namefile);
-                $categoryname = $namefile . '_Indicador_'.$indicator['number'];
+                $categoryname = $namefile . '_Indicador_' . $indicator['number'];
                 $imported = $importer->import_questions(
                     $indicator['questions'],
                     $categoryname,

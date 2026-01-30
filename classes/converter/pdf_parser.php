@@ -102,7 +102,7 @@ class pdf_parser {
         foreach ($indicators as $num => $indicator) {
             $questions = $this->process_indicator($indicator);
             /* Filtrar preguntas válidas */
-            $validquestions = array_filter($questions, function($q) {
+            $validquestions = array_filter ($questions, function($q) {
                 return isset($q['type']) &&
                        $q['type'] !== 'ERROR' &&
                        in_array($q['type'], ['multichoice', 'essay', 'truefalse']);
@@ -149,19 +149,19 @@ class pdf_parser {
         $text = preg_replace('/.*?plazos\s+establecidos\.\s*/is', '', $text);
         $text = preg_replace('/^(?:[A-ZÁÉÍÓÚÜÑ0-9\s\.\-]+?\n){1,3}/', '', $text);
         $pattern = '/^\s*(\d+)\.\s*'
-                    .'(.*?) '
-                    .'\s+'
+                    . '(.*?) '
+                    . '\s+'
                     . 'a\)\s*(.*?)\n'
                     . 'b\)\s*(.*?)\n'
                     . 'c\)\s*(.*?)\n'
                     . 'd\)\s*(.*?)\n'
                     . 'e\)\s*(.*?)\n'
-                    .'.*?Respuesta\s*correcta\s*'
-                    .'Retroalimentación\s*'
-                    .'([aA-eE])'
-                    .'\s*'
-                    .'((?:(?!\n\s*\d+\.\s).)*)'
-                    .'/smx';
+                    . '.*?Respuesta\s*correcta\s*'
+                    . 'Retroalimentación\s*'
+                    . '([aA-eE])'
+                    . '\s*'
+                    . '((?:(?!\n\s*\d+\.\s).)*)'
+                    . '/smx';
         preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
         $questions = [];
         foreach ($matches as $m) {
@@ -462,7 +462,7 @@ class pdf_parser {
      * @return string|string[]
      */
     private function get_options($text, $type) {
-        switch($type){
+        switch ($type) {
             case 'multichoice':
                 list($options, $type) = $this->extract_options_multichoice($text);
                 return $options;
@@ -503,7 +503,7 @@ class pdf_parser {
                 $contentquestions = $question[$i + 1];
             }
             $contentquestions = $this->clean_question_block($contentquestions);
-            $cleantext .= $numberquestion.$contentquestions."\n\n";
+            $cleantext .= $numberquestion . $contentquestions . "\n\n";
         }
         return trim($cleantext);
     }
