@@ -3,7 +3,7 @@
         'name' => 'local/questionconverter',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'a99cf2b8167ddcf9564b2f01ae04683d715dc8ba',
+        'reference' => '2a322816c1d790dd4a3fe7a1f1d86f726ccbb0b7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'local/questionconverter' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'a99cf2b8167ddcf9564b2f01ae04683d715dc8ba',
+            'reference' => '2a322816c1d790dd4a3fe7a1f1d86f726ccbb0b7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

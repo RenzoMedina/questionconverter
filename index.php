@@ -23,7 +23,7 @@
  */
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->libdir. '/questionlib.php');
+require_once($CFG->libdir . '/questionlib.php');
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once(__DIR__ . '/vendor/autoload.php');
@@ -43,7 +43,6 @@ if (empty($courseid)) {
         $courseid = (int)$matches[1];
     } else {
         redirect(new moodle_url('/my/'));
-        die();
     }
 }
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
@@ -69,8 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
         $file = null;
         $filepath = null;
         $isdraft = false;
+        $filename = null;
         if (isset($_FILES['pdffile']) && $_FILES['pdffile']['error'] === UPLOAD_ERR_OK) {
             $file = $_FILES['pdffile'];
+            $filename = clean_filename($file['name']);
         } else {
             $errcode = $_FILES['pdffile']['error'] ?? null;
             // Intentar obtener archivo desde draft area (filepicker).
@@ -89,7 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
                         if (!is_dir($tempdir)) {
                             @mkdir($tempdir, 0777, true);
                         }
-                        $filename = $f->get_filename();
+                        if ($filename === null) {
+                            $filename = clean_filename($f->get_filename());
+                        }
                         $filepath = $tempdir . '/' . $filename;
                         file_put_contents($filepath, $f->get_content());
                         $file = [
@@ -121,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
 
         // Si no es draft, mover archivo a directorio temporal (si ya creamos el archivo desde draft, ya está en temp).
         if (!$isdraft) {
-            $filename = clean_filename($file['name']);
             $tempdir = make_temp_directory('questionconverter');
 
             // Asegurar que el directorio temporal exista.
@@ -164,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
             foreach ($result['indicators'] as $indicator) {
                 $namefile = clean_param($filename, PARAM_TEXT);
                 $namefile = preg_replace('/\.pdf$/i', '', $namefile);
-                $categoryname = $namefile . '_Indicador_'.$indicator['number'];
+                $categoryname = $namefile . '_Indicador_' . $indicator['number'];
                 $imported = $importer->import_questions(
                     $indicator['questions'],
                     $categoryname,
@@ -225,6 +227,19 @@ $templatedata = [
     'footer' => get_string('stringfooter', 'local_questionconverter'),
     'name-return' => get_string('name-return', 'local_questionconverter'),
     'link-return' => (new moodle_url('/course/view.php', ['id' => $courseid]))->out(false),
+    'text-change-file' => get_string('text-change-file', 'local_questionconverter'),
+    'text-clear' => get_string('text-clear', 'local_questionconverter'),
+    'text-convert-and-import' => get_string('text-convert-and-import', 'local_questionconverter'),
+    'text-grid-info' => get_string('text-grid-info', 'local_questionconverter'),
+    'text-grid-info-help' => get_string('text-grid-info-help', 'local_questionconverter'),
+    'text-grid-success' => get_string('text-grid-success', 'local_questionconverter'),
+    'text-grid-success-help' => get_string('text-grid-success-help', 'local_questionconverter'),
+    'text-indicators' => get_string('text-indicators', 'local_questionconverter'),
+    'text-loading' => get_string('text-loading', 'local_questionconverter'),
+    'text-loading-help' => get_string('text-loading-help', 'local_questionconverter'),
+    'text-selectcategory' => get_string('text-selectcategory', 'local_questionconverter'),
+    'text-selectcategory-help' => get_string('text-selectcategory-help', 'local_questionconverter'),
+    'text-uploadpdf' => get_string('text-uploadpdf', 'local_questionconverter'),
     ];
 echo $OUTPUT->render_from_template('local_questionconverter/main', $templatedata);
 echo $OUTPUT->footer();

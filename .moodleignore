@@ -1,0 +1,7 @@
+vendor/
+node_modules/
+tailwindcss/node_modules/
+.git/
+.github/
+*.min.js
+*.min.css

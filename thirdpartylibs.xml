@@ -1,9 +1,27 @@
 <?xml version="1.0"?>
 <libraries>
+ <!-- PDF Parser library -->
   <library>
-    <location>vendor/</location>
-    <name>Composer vendor libraries</name>
-    <version>1-0</version>
+    <location>vendor/smalot/pdfparser</location>
+    <name>Pdf Parser library</name>
+    <version>2.9.0</version>
+    <license>LGPL-3.0</license>
+    <licenseversion>3.0</licenseversion>
+  </library>
+  <!-- Symfony Polyfill MBString -->
+  <library>
+    <location>vendor/symfony/polyfill-mbstring</location>
+    <name>Symfony Polyfill - Mbstring</name>
+    <version>1.x</version>
     <license>MIT</license>
+    <licenseversion></licenseversion>
+  </library>
+  <!-- TailwindCSS -->
+  <library>
+    <location>tailwindcss</location>
+    <name>Tailwind CSS</name>
+    <version>3.x</version>
+    <license>MIT</license>
+    <licenseversion></licenseversion>
   </library>
 </libraries>
