@@ -24,7 +24,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_questionconverter';
-$plugin->release = '1.0.4';
-$plugin->version = 2026011015;
+$plugin->release = '1.0.5';
+$plugin->version = 2026011016;
 $plugin->requires = 2022112800;
 $plugin->maturity = MATURITY_ALPHA;

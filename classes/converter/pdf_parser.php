@@ -142,7 +142,7 @@ class pdf_parser {
     /**
      * Summary of parse_old_format
      * @param mixed $text
-     * @return array{correct_answer: string, feedback: string, number: string, options: array, question: string, type: string[]}
+     * @return array{correctanswer: string, feedback: string, number: string, options: array, question: string, type: string[]}
      */
     private function parse_old_format($text) {
         $text = preg_replace("/\r\n|\r/", "\n", $text);
@@ -176,7 +176,7 @@ class pdf_parser {
                     'd' => trim($m[6]),
                     'e' => trim($m[7]),
                 ],
-                'correct_answer' => strtolower(trim($m[8])),
+                'correctanswer' => strtolower(trim($m[8])),
                 'feedback' => trim($m[9]),
             ];
         }
@@ -287,12 +287,12 @@ class pdf_parser {
             $options = $this->get_options($content, $type);
             $question['options'] = $options;
             $answer = $this->extract_answer($content);
-            $question['correct_answer'] = $this->clean_answer($answer);
+            $question['correctanswer'] = $this->clean_answer($answer);
         } else if ($type === 'truefalse') {
             $options = $this->get_options($content, $type);
             $question['options'] = $options;
             $answer = $this->extract_answer($content);
-            $question['correct_answer'] = $this->clean_answer($answer);
+            $question['correctanswer'] = $this->clean_answer($answer);
         }
         return $question;
     }
@@ -304,17 +304,18 @@ class pdf_parser {
     private function extract_options_multichoice($content) {
         $options = [];
         $type = '';
-        $pattern = '/Alternativas\s*(.*?)(?=Respuesta\s+correcta|$)/is';
+        $pattern = '/Alternativas\s*(.*?)(?=Indicador\s+de\s+evaluación|Respuesta\s+correcta)/s';
         if (!preg_match($pattern, $content, $m)) {
             return [$options, $type];
         }
         $optionstext = trim($m[1]);
-        $patternoptions = '/([a-e])\)\s*(.*?)(?=\s*[a-e]\)|$)/s';
+        $patternoptions = '/([a-e])\)\s*(.*?)(?=\s*[a-e]\s*\)|$)/s';
         preg_match_all($patternoptions, $optionstext, $matches, PREG_SET_ORDER);
         foreach ($matches as $opt) {
             $letter = strtolower($opt[1]);
             $text = trim($opt[2]);
-            if (stripos($text, 'Alternativas') === false) {
+            $text = preg_replace('/\s+/', ' ', $text);
+            if (!empty($text) && stripos($text, 'Alternativas') === false) {
                 $options[$letter] = $text;
                 $type = 'multichoice';
             }
@@ -447,11 +448,11 @@ class pdf_parser {
         if ($type === 'multichoice') {
             $options = $this->get_options($content, $type);
             $question['options'] = $options;
-            $question['correct_answer'] = $this->extract_answer($content);
+            $question['correctanswer'] = $this->extract_answer($content);
         } else if ($type === 'truefalse') {
             $options = $this->get_options($content, $type);
             $question['options'] = $options;
-            $question['correct_answer'] = $this->extract_answer($content);
+            $question['correctanswer'] = $this->extract_answer($content);
         }
         return $question;
     }
