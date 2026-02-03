@@ -87,9 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
                             continue;
                         }
                         $tempdir = make_temp_directory('questionconverter');
-                        if (!is_dir($tempdir)) {
-                            @mkdir($tempdir, 0777, true);
-                        }
                         if ($filename === null) {
                             $filename = clean_filename($f->get_filename());
                         }
@@ -125,11 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && confirm_sesskey()) {
         // If it is not a draft, move the file to a temporary directory (if we already created the file from a draft, it is already in temp).
         if (!$isdraft) {
             $tempdir = make_temp_directory('questionconverter');
-
-            // Ensure that the temporary directory exists
-            if (!is_dir($tempdir)) {
-                @mkdir($tempdir, 0777, true);
-            }
 
             $filepath = $tempdir . '/' . $filename;
 
