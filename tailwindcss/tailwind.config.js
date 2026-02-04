@@ -8,7 +8,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-    
+     width: {
+       '800': '800px',
+     },
+     inset: {
+       '100': '40rem',
+       '18.7': '18.7rem',
+     },
     },
   },
   plugins: [],

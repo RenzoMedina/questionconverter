@@ -7,3 +7,81 @@
         @apply no-underline !important; 
     } 
 }
+
+@layer components {
+    .qc-moodle-form-wrapper .mform{
+        @apply bg-white space-x-6 text-base;
+    }
+    /* Toggle switch personalizado */
+    .qc-moodle-form-wrapper input[type="checkbox"].form-check-input {
+        @apply relative w-11 h-6 bg-gray-200 rounded-full cursor-pointer appearance-none;
+        @apply transition-colors duration-200;
+        @apply focus:ring-4 focus:ring-blue-100 focus:outline-none;
+    }
+    .qc-moodle-form-wrapper input[type="checkbox"].form-check-input:checked {
+        @apply bg-blue-600;
+    }
+    .qc-moodle-form-wrapper input[type="checkbox"].form-check-input::after {
+        content: '';
+        @apply absolute top-[2px] left-[2px] bg-white rounded-full h-5 w-5;
+        @apply transition-transform duration-200;
+        @apply shadow-sm;
+    }
+    .qc-moodle-form-wrapper input[type="checkbox"].form-check-input:checked::after {
+        @apply translate-x-5;
+    }
+    .qc-moodle-form-wrapper .form-check-label {
+        @apply text-base font-medium text-gray-700 cursor-pointer;
+    }
+    .qc-moodle-form-wrapper .form-check label, .qc-moodle-form-wrapper input[type="checkbox"] {
+        @apply m-0 p-0;
+    }
+    .qc-moodle-form-wrapper .form-check {
+        @apply flex items-center gap-3;
+    }
+    .qc-moodle-form-wrapper .fdescription, .qc-moodle-form-wrapper .fitem p, .qc-moodle-form-wrapper .form-filetypes-descriptions {
+        @apply hidden;
+    }
+        /* Botones de acción (Submit y Cancel) */
+    .qc-moodle-form-wrapper .fitem_actionbuttons {
+        @apply flex justify-center gap-4 mt-8;
+    }
+
+    .qc-moodle-form-wrapper input[type="submit"] {
+        @apply inline-flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold;
+        @apply hover:bg-blue-700 hover:shadow-lg transition-all duration-200;
+        @apply cursor-pointer border-0 mt-5 relative left-18.7;
+    }
+    .qc-moodle-form-wrapper .col-form-label{
+        @apply hidden !important;
+    }
+    .qc-moodle-form-wrapper .fitem {
+        @apply text-center m-0 !important;
+    }
+    .qc-moodle-form-wrapper .filepicker-filelist{
+        @apply w-800 mt-6 rounded-lg border border-gray-300 p-4 h-40 overflow-auto;
+        @apply bg-white;
+    }
+    .qc-moodle-form-wrapper .filepicker-container{
+        @apply hover:border-blue-600 hover:bg-blue-50;
+        @apply transition-all duration-200;
+        @apply rounded-lg border;
+    }
+    .qc-moodle-form-wrapper .fp-btn-choose{
+        @apply inline-flex items-center gap-2 bg-neutral-800 text-white px-8 py-3 rounded-lg font-semibold;
+        @apply hover:bg-neutral-900 hover:shadow-lg transition-all duration-200;
+        @apply cursor-pointer border-0 mt-5;
+    }
+    .qc-moodle-form-wrapper .form-check{
+        @apply relative left-100 bottom-56 w-auto;
+    }
+    .qc-moodle-form-wrapper .filepicker-filename{
+        @apply text-center mt-10 text-gray-700 font-medium text-xl;
+    }
+    .qc-moodle-form-wrapper .filepicker-filename a{
+        @apply text-3xl;
+    }
+    .qc-moodle-form-wrapper .dndupload-arrow, .qc-moodle-form-wrapper .dndupload-message{
+        @apply mt-1;
+    }
+}

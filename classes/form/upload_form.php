@@ -49,7 +49,7 @@ class upload_form extends \moodleform {
             ]);
         $mform->addRule('pdffile', null, 'required', null, 'client');
         $mform->addElement('advcheckbox', 'with_indicators', '', get_string('text-indicators', 'local_questionconverter'), '', [], ['0', '1']);
-        $this->add_action_buttons(true, get_string('text-convert-and-import', 'local_questionconverter'));
+        $this->add_action_buttons(false, get_string('text-convert-and-import', 'local_questionconverter'));
     }
     /**
      * Form validation.
