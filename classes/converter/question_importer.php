@@ -121,7 +121,7 @@ class question_importer {
             $topcategory->sortorder = 999;
             $topcategory->id = $DB->insert_record('question_categories', $topcategory);
         }
-        // Create new category
+        // Create new category.
         $category = new \stdClass();
         $category->name = $name;
         $category->contextid = $context->id;
@@ -145,7 +145,7 @@ class question_importer {
             $count = $DB->count_records('question', ['category' => $categoryid]);
             $DB->set_field('question_categories', 'questioncount', $count, ['id' => $categoryid]);
         }
-        // Clear questions cache
+        // Clear questions cache.
         \cache::make('core', 'questiondata')->purge();
         \question_bank::notify_question_edited($categoryid);
     }
@@ -279,7 +279,7 @@ class question_importer {
             $istrue = false;
         }
         $feedbackcorrecto = $data['feedback'] ?? '';
-        // Create response “True.”
+        // Create response “True.”.
         $answertrue = new \stdClass();
         $answertrue->question = $question->id;
         $answertrue->answer = get_string('true', 'qtype_truefalse');
@@ -288,7 +288,7 @@ class question_importer {
         $answertrue->feedback = $istrue ? $feedbackcorrecto : '';
         $answertrue->feedbackformat = FORMAT_HTML;
         $trueid = $DB->insert_record('question_answers', $answertrue);
-        // Create response “False.”
+        // Create response “False.”.
         $answerfalse = new \stdClass();
         $answerfalse->question = $question->id;
         $answerfalse->answer = get_string('false', 'qtype_truefalse');
