@@ -80,7 +80,7 @@
     <div class="text-center mb-4">
         <div class="spinner-border text-primary mb-3" role="status">
         </div>
-            <p class="text-gray-600">{{#str}}redirecting, local_questionconverter{{/str}} <strong><span id="countdown"> 10 </span> </strong> {{#str}}seconds, local_questionconverter{{/str}} </p>
+            <p class="text-gray-600">{{#str}}redirecting, local_questionconverter{{/str}} <strong><span id="countdown" data-redirect-url="{{questionbankurl}}" data-seconds="10">10</span></strong> {{#str}}seconds, local_questionconverter{{/str}} </p>
     </div>
     
     <div class="flex justify-center">
@@ -111,19 +111,3 @@
         <p class="text-sm text-gray-700 font-semibold">{{#str}}stringfooter, local_questionconverter{{/str}} - {{year}}</p>
     </div>
 </div>
-
-<script>
-    let seconds = 10;
-    const countdownEl = document.getElementById('countdown');
-    const redirectUrl = '{{questionbankurl}}';
-
-    const interval = setInterval(() => {
-        seconds--;
-        countdownEl.textContent = seconds;
-
-        if (seconds <= 0) {
-            clearInterval(interval);
-            window.location.href = redirectUrl;
-        }
-    }, 1000);
-</script>

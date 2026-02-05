@@ -50,6 +50,7 @@ $PAGE->set_title(get_string('pluginname', 'local_questionconverter'));
 $PAGE->set_heading($course->fullname);
 $PAGE->set_course($course);
 $PAGE->requires->css(new moodle_url('/local/questionconverter/tailwindcss/dist/output.css'));
+$PAGE->requires->js_call_amd('local_questionconverter/countdown', 'init');
 
 // URL to go to the question bank.
 $questionbankurl = new moodle_url('/question/edit.php', [

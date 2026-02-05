@@ -1,9 +1,9 @@
 # Dependency directories
 node_modules/
-
+amd/build/
 # Optional npm cache directory
 .npm
 
 # IDE y editores
 .vscode/
-debug.php
+.idea/
