@@ -29,10 +29,10 @@ namespace local_questionconverter\privacy;
  *
  * This plugin does not store any personal user data.
  *
+ * @package   local_questionconverter
  * @copyright  2026 Renzo Medina <medinast30@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class provider implements \core_privacy\local\metadata\null_provider {
     /**
      * Get the language string identifier with the component's language

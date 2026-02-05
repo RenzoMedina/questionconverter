@@ -23,9 +23,10 @@
  */
 
 namespace local_questionconverter\form;
-define( 'MOODLE_INTERNAL', true );
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
-require_once( $CFG->libdir . '/formslib.php' );
+require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Upload form class.
@@ -45,10 +46,11 @@ class upload_form extends \moodleform {
             null, [
                 'accepted_types' => ['.pdf'],
                 'maxfiles' => 1,
-                'maxbytes' => 10485760 // 10 MB
+                'maxbytes' => 10485760, // 10 MB.
             ]);
         $mform->addRule('pdffile', null, 'required', null, 'client');
-        $mform->addElement('advcheckbox', 'with_indicators', '', get_string('text-indicators', 'local_questionconverter'), '', [], ['0', '1']);
+        $mform->addElement('advcheckbox', 'with_indicators', '', get_string('text-indicators',
+        'local_questionconverter'), '', [], ['0', '1']);
         $this->add_action_buttons(false, get_string('text-convert-and-import', 'local_questionconverter'));
     }
     /**
